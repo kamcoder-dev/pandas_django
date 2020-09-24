@@ -1,9 +1,19 @@
 from django.shortcuts import render
 from .models import Purchase, Product
 import pandas as pd
-from .utils import get_simple_plot
+from .utils import get_simple_plot, get_sales_from_id
 from .forms import PurchaseForm
 from django.shortcuts import redirect
+from django.http import HttpResponse
+
+
+def sales_dist_view(request):
+    df = pd.DataFrame(Purchase.objects.all().values())
+    df['salesman_id'] = df['salesman_id'].apply(get_sales_from_id)
+    df.rename({'salesman_id': 'salesman'}, axis=1, inplace=True)
+    df['date'] = df['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+
+    return HttpResponse('Hello ')
 
 
 def chart_select_view(request):
