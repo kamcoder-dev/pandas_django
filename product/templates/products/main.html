@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block title %} Performance {% endblock title %}
+
+{% block content %}
+
+<div class="ui modal mymodal">
+    <div class="header">
+        <h1>Price data</h1>
+    </div>
+    <div class="ui container">
+        <ul>
+            <li><strong>Count: </strong>{{ price.count }}</li>
+            <li><strong>Mean: </strong>{{ price.mean | floatformat }}</li>
+            <li><strong>Medain: </strong>{{ price.median }}</li>
+            <li><strong>Min: </strong>{{ price.min }}</li>
+            <li><strong>Std dev: </strong>{{ price.std | floatformat }}</li>
+        </ul>
+
+    </div>
+</div>
+
+<div>
+    <div class="block-center" style="text-align: center">
+
+        {% if error_message %}
+        <div class="ui negative message">
+            <i class="close icon"></i>
+            <div class="header">
+                {{ error_message }}
+            </div>
+        </div>
+
+
+        {% endif %}
+
+        {% if request.POST %}
+        {% if graph %}
+        <img src="data:image/png;base64, {{ graph | safe }}">
+        {% endif %}
+        {% endif %}
+    </div>
+    <form action="" method="POST" class="ui form">
+        {% csrf_token %}
+        <div class="field">
+            <label>Choose a chart type:</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="sales">
+                <i class="dropdown icon"></i>
+                <div class="default text">----</div>
+                <div class="menu">
+                    <div class="item" value="bar">Bar Plot</div>
+                    <div class="item" value="line">Line Plot</div>
+                    <div class="item" value="count">Count Plot</div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+
+            <div class="two fields">
+                <div class="field">
+                    <label>Date from:</label>
+                    <input type="date" name="date_from">
+                </div>
+                <div class="field">
+                    <label>Date to:</label>
+                    <input type="date" name="from_to">
+                </div>
+            </div>
+
+        </div>
+        <div class="block-center" style="text-align: center; padding-bottom: 20px;">
+            <button class="ui large primary basic button" type="submit">Submit</button>
+        </div>
+
+    </form>
+    <div class="block-center" style="text-align: center; padding-bottom: 20px;">
+        <button class="ui large secondary basic button" id="modal-btn">Summary</button>
+        <br>
+        <div class="block-center" style="text-align: center; padding-top: 20px;">
+
+            <a href={% url 'product:add-purchase-view' %} button class="ui large pink basic button">Add
+                records</button></a>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{% endblock content %}
