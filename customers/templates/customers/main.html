@@ -8,6 +8,8 @@
 
 
 {% if graph %}
-<img src="data:image/png; base64, {{ graph|safe }}">
+<div class="block-center" style="text-align: center;">
+    <img src="data:image/png; base64, {{ graph|safe }}" height="800" width="auto">
+</div>
 {% endif %}
 {% endblock content %}

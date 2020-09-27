@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from .models import Customer
 from product.utils import get_image
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def customer_corr_view(request):
     df = pd.DataFrame(Customer.objects.all().values())
     corr = round(df['budget'].corr(df['employment']), 2)
